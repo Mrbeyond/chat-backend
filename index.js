@@ -26,7 +26,7 @@ app.use('/audio', express.static(__dirname+"/public/uploads/audio"));
 app.use('/image', express.static(__dirname+'/public/uploads/image'));
 app.use('/video', express.static(__dirname+"/public/uploads/video"));
 
-const server = app.listen((PORT), ( err )=>{
+const server = app.listen((PORT | 2050), ( err )=>{
     if(err) console.log(err);
     console.log( `My relate is serving on port ${PORT}, let us keep chatting ${key}`);
 }); 
