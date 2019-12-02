@@ -1,17 +1,16 @@
 " use strict ";
-
+require('dotenv').config();
 const express = require('express');
 const formidable = require('formidable');
 const path = require('path');
 const bodyParser = require('body-parser');
 const jwt= require('jsonwebtoken');
-const env = require('dotenv').config();
 const cors = require('cors');
 
 const controlMan = require('./controller/controls');
 const midMan = require('./middleware/midware');
 
-const PORT = process.env.port;
+const PORT = process.env.PORT || 2050;
 const key = process.env.keys;
 
 const app = express();
@@ -26,7 +25,7 @@ app.use('/audio', express.static(__dirname+"/public/uploads/audio"));
 app.use('/image', express.static(__dirname+'/public/uploads/image'));
 app.use('/video', express.static(__dirname+"/public/uploads/video"));
 
-const server = app.listen((PORT | 2050), ( err )=>{
+const server = app.listen((PORT), ( err )=>{
     if(err) console.log(err);
     console.log( `My relate is serving on port ${PORT}, let us keep chatting ${key}`);
 }); 
