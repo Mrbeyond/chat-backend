@@ -4,12 +4,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const formidable = require('formidable');
 const path = require('path');
+const fs = require('fs');
 
 const modellers = require('./../model/modellers');
 const midMan = require('./../middleware/midware');
 const ashKey = process.env.keys;
 const pathWay = process.env.files;
 const chatFilePath = process.env.chatFiles;
+const root = require("./../rooterpath");
 
 mongoose.connect('mongodb+srv://beyond:lovebeyond007@cluster0-fjpbb.mongodb.net/chatapp?retryWrites=true&w=majority',
  {useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify:false, useCreateIndex: true});
@@ -19,7 +21,15 @@ const structure ={
     data: null
 };
 
+
 let controlMan={
+    QQ: async (req, res) => { 
+        fs.readFile('/image/female.jpg', async(err, img) => {
+            console.log('index root is', root.root, root.public);
+            if (err) res.send(err);
+            res.send(img);
+        });
+    },
     signup: async(req, res)=>{
         console.log(req.body);
         let{ username, email, password, sex } = req.body;
@@ -104,7 +114,7 @@ let controlMan={
                 let num =  (file.type).indexOf('/');
                 let Dir =  (file.type).slice(0, num);
                 let namer =   `${ID._id}_${dater}${path.extname(file.name)}`
-                file.path =  ( pathWay+'/'+Dir+'/'+namer); 
+                file.path =  ( root.root+root.upload+'/'+Dir+'/'+namer); 
             });
             media.on('file', async (name, file) => {
                 let user = mongoose.model('user', modellers.user);
@@ -139,7 +149,7 @@ let controlMan={
                 let Dir =  (file.type).slice(0, num);
                 let dater = Date.now();
                 let namer =   `${senderId}_${dater}${path.extname(file.name)}`
-                file.path =  (chatFilePath+'/'+folder+'/'+Dir+'/'+namer); 
+                file.path =  (root.root+'/'+folder+'/'+Dir+'/'+namer); 
             });
             media.on('error', (err) => {
                 reject(0);

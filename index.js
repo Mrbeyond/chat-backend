@@ -31,9 +31,11 @@ const server = app.listen((PORT), ( err )=>{
 }); 
 
 app.get('/home', ( req, res ) => {
+    console.log(__dirname)
     res.status(200).json({body: 'tested'});
 });
 
+app.get('/img', controlMan.QQ);
 app.get('/returnUser', midMan.returnUser);
 app.post('/upload', controlMan.upload);
 app.post('/signup', controlMan.signup);
@@ -114,7 +116,3 @@ io.on('connection', ( socket )=>{
 
 
 });
-
-
-
-
